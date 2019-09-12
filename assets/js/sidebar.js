@@ -3,7 +3,7 @@ function start()
     var area=document.getElementById('sidebar');
     var inner=document.getElementById('inner');
     var h=parseFloat(getComputedStyle(inner).getPropertyValue('height'));
-    var x,y;
+    var y,top,newTop;
     area.addEventListener('mousedown',function(e)
     {
        e.preventDefault();
@@ -12,14 +12,14 @@ function start()
     area.addEventListener('mouseup',function(e)
     {
        e.preventDefault();
-       var x=getComputedStyle(inner).getPropertyValue('top');
-       var nw=(parseFloat(x)+(e.clientY-y));
-       nw=nw>0?0:nw;
-       if(Math.abs(parseFloat(nw))>(h-document.documentElement.clientHeight))
+       top=getComputedStyle(inner).getPropertyValue('top');
+       newTop=(parseFloat(top)+(e.clientY-y));
+       newTop=newTop>0?0:newTop;
+       if(Math.abs(parseFloat(newTop))>(h-document.documentElement.clientHeight))
        {
-           nw=-(h-document.documentElement.clientHeight);
+           newTop=-(h-document.documentElement.clientHeight);
        }
-        inner.style.top=nw+'px';
+        inner.style.top=newTop+'px';
     });
     area.addEventListener('touchstart',function(e)
     {
@@ -29,14 +29,13 @@ function start()
     area.addEventListener('touchmove',function(e)
     {
         e.preventDefault();
-        var x=getComputedStyle(inner).getPropertyValue('top');
-        var nw=(parseFloat(x)+(e.targetTouches[0].clientY-y));
-        console.log(document.documentElement.clientHeight,nw);
-        nw=nw>0?0:nw;
-        if(Math.abs(parseFloat(nw))>(h-document.documentElement.clientHeight))
+        top=getComputedStyle(inner).getPropertyValue('top');
+        newTop=(parseFloat(top)+(e.targetTouches[0].clientY-y));
+        newTop=newTop>0?0:newTop;
+        if(Math.abs(parseFloat(newTop))>(h-document.documentElement.clientHeight))
         {
-            nw=-(h-document.documentElement.clientHeight);
+            newTop=-(h-document.documentElement.clientHeight);
         }
-        inner.style.top=nw+'px';
+        inner.style.top=newTop+'px';
     });
 }
