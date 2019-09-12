@@ -2,7 +2,25 @@ function start()
 {
     var area=document.getElementById('sidebar');
     var inner=document.getElementById('inner');
+    var h=parseFloat(getComputedStyle(inner).getPropertyValue('height'));
     var x,y;
+    area.addEventListener('mousedown',function(e)
+    {
+       e.preventDefault();
+       y=e.clientY;
+    });
+    area.addEventListener('mouseup',function(e)
+    {
+       e.preventDefault();
+       var x=getComputedStyle(inner).getPropertyValue('top');
+       var nw=(parseFloat(x)+(e.clientY-y));
+       nw=nw>0?0:nw;
+       if(Math.abs(parseFloat(nw))>(h-document.documentElement.clientHeight))
+       {
+           nw=-(h-document.documentElement.clientHeight);
+       }
+        inner.style.top=nw+'px';
+    });
     area.addEventListener('touchstart',function(e)
     {
         e.preventDefault();
@@ -12,14 +30,12 @@ function start()
     {
         e.preventDefault();
         var x=getComputedStyle(inner).getPropertyValue('top');
-        var h=getComputedStyle(inner).getPropertyValue('height');
-        console.log(h);
         var nw=(parseFloat(x)+(e.targetTouches[0].clientY-y));
         console.log(document.documentElement.clientHeight,nw);
         nw=nw>0?0:nw;
-        if(Math.abs(parseFloat(nw))>document.documentElement.clientHeight)
+        if(Math.abs(parseFloat(nw))>(h-document.documentElement.clientHeight))
         {
-            nw=parseFloat(x);
+            nw=-(h-document.documentElement.clientHeight);
         }
         inner.style.top=nw+'px';
     });
